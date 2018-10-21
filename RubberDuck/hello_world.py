@@ -12,6 +12,8 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
 
+from .answer_intent import answer_request_handler
+
 keyword_aggregation = [
   'What is your project?',
   'What languages are you using in your project?',
