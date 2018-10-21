@@ -11,6 +11,17 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
 
+keyword_aggreation = [
+  'Quack! Whats your project?',
+  'What languages are you using in your project?',
+  'What are you trying to do?'
+]
+
+context_driven = [
+    'What technolgies does it incorporate?'
+    'How are you using programming language in the project? ',
+    'How are you implementing this framework?'
+    ]
 sb = SkillBuilder()
 
 logger = logging.getLogger(__name__)
