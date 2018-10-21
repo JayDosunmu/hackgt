@@ -12,8 +12,8 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
 
-keyword_aggreation = [
-  'Quack! Whats your project?',
+keyword_aggregation = [
+  'What is your project?',
   'What languages are you using in your project?',
   'What are you trying to do?',
   'What is your current problem?'
@@ -23,7 +23,8 @@ context_driven = [
     'What technolgies does it incorporate?'
     'How are you using programming language in the project? ',
     'How are you implementing this framework?'
-    ]
+]
+
 sb = SkillBuilder()
 
 logger = logging.getLogger(__name__)
@@ -34,35 +35,42 @@ logger.setLevel(logging.INFO)
 def launch_request_handler(handler_input):
     """Handler for Skill Launch."""
     # type: (HandlerInput) -> Response
-    speech_text = "Yo Bobby, I got you. What do you need help on?"
+    speech_text = "Quack! What is it?"
 
-    return handler_input.response_builder.speak(speech_text).set_card(
-        SimpleCard("Hello World", speech_text)).set_should_end_session(
-        False).response
+    return handler_input.response_builder.speak(speech_text).ask(speech_text).response
+    
+@sb.request_handler(can_handle_func=is_request_type("StartQuestioning"))
+def launch_request_handler(handler_input):
+    """Handler for Skill Launch."""
+    # type: (HandlerInput) -> Response
+    speech_text = "Okay. Let me ask you some questions."
+    ask_text = keyword_aggregation[0]
+
+    return handler_input.response_builder.speak(speech_text + ask_text).ask(ask_text).response
 
 
 @sb.request_handler(can_handle_func=is_intent_name("HelloWorldIntent"))
 def hello_world_intent_handler(handler_input):
     """Handler for Hello World Intent."""
     # type: (HandlerInput) -> Response
-    speech_text = "Hello Python World from Decorators!"
+    speech_text = "whats up"
     
-    i = random.randint(0,lens[keyword_aggreation])
+    i = random.randint(0,lens[keyword_aggregation])
 
     return handler_input.response_builder.speak(speech_text).set_card(
-        SimpleCard("I need help", keyword_aggreation[i])).set_should_end_session(
+        SimpleCard(keyword_aggregation[i], "I need help")).set_should_end_session(
         True).response
 
 
-@sb.request_handler(can_handle_func=is_intent_name("AMAZON.HelpIntent"))
-def help_intent_handler(handler_input):
-    """Handler for Help Intent."""
-    # type: (HandlerInput) -> Response
-    speech_text = "You can say hello to me!"
+# @sb.request_handler(can_handle_func=is_intent_name("AMAZON.HelpIntent"))
+# def help_intent_handler(handler_input):
+#     """Handler for Help Intent."""
+#     # type: (HandlerInput) -> Response
+#     speech_text = "Whats Good!"
 
-    return handler_input.response_builder.speak(speech_text).ask(
-        speech_text).set_card(SimpleCard(
-            "Hello World", speech_text)).response
+#     return handler_input.response_builder.speak(speech_text).ask(
+#         speech_text).set_card(SimpleCard(
+#             "Hello World", "Abele is awesome")).response
 
 
 @sb.request_handler(
@@ -108,7 +116,7 @@ def all_exception_handler(handler_input, exception):
     # type: (HandlerInput, Exception) -> Response
     logger.error(exception, exc_info=True)
 
-    speech = "Sorry, there was some problem. Please try again!!"
+    speech = "Bitch wtf!"
     handler_input.response_builder.speak(speech).ask(speech)
 
     return handler_input.response_builder.response
