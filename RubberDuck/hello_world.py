@@ -3,6 +3,7 @@
 # This is a simple Hello World Alexa Skill, built using
 # the decorators approach in skill builder.
 import logging
+import random
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.utils import is_request_type, is_intent_name
@@ -14,7 +15,8 @@ from ask_sdk_model import Response
 keyword_aggreation = [
   'Quack! Whats your project?',
   'What languages are you using in your project?',
-  'What are you trying to do?'
+  'What are you trying to do?',
+  'What is your current problem?'
 ]
 
 context_driven = [
@@ -44,9 +46,11 @@ def hello_world_intent_handler(handler_input):
     """Handler for Hello World Intent."""
     # type: (HandlerInput) -> Response
     speech_text = "Hello Python World from Decorators!"
+    
+    i = random.randint(0,lens[keyword_aggreation])
 
     return handler_input.response_builder.speak(speech_text).set_card(
-        SimpleCard("Hello World", speech_text)).set_should_end_session(
+        SimpleCard("I need help", keyword_aggreation[i])).set_should_end_session(
         True).response
 
 
